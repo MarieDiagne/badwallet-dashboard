@@ -88,7 +88,7 @@ export class CreateWalletComponent {
   loading = signal(false);
 
   form = this.fb.group({
-    phoneNumber: ['', [Validators.required, Validators.pattern(/^\+221[0-9]{9}$/)]],
+    phoneNumber: ['', [Validators.required, Validators.pattern(/^\+[0-9]{10,15}$/)]],
     email: ['', [Validators.required, Validators.email]],
     code: ['', Validators.required],
     initialBalance: [0, [Validators.required, Validators.min(0)]],
