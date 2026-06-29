@@ -1,59 +1,71 @@
-# BadwalletDashboard
+# BadWallet Web Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.4.
+Application Angular (SPA) — Examen Design Pattern / UML L3 S2 2026  
+**Marie Diagne**
 
-## Development server
+---
 
-To start a local development server, run:
+## Prérequis
+
+- Node.js 18+ et Angular CLI (`npm install -g @angular/cli`)
+- **badwallet-api** démarré sur `http://localhost:8080`
+- **payment-service** démarré sur `http://localhost:8081`
+
+---
+
+## Lancer l'application
 
 ```bash
+npm install
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Ouvrir : http://localhost:4200
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Connexion
 
-```bash
-ng generate component component-name
+### Espace Agent de guichet
+1. Entrer **n'importe quel numéro** (ex: `+221700000000`)
+2. Sélectionner le rôle **Agent**
+3. Cliquer **Se connecter**
+
+Accès : listing portefeuilles, création, recherche client, dépôt/retrait.
+
+### Espace Client
+1. **D'abord**, aller dans l'espace Agent → copier un numéro de téléphone existant (ex: `+221770000001`)
+2. Se déconnecter
+3. Coller ce numéro dans le formulaire de login
+4. Sélectionner le rôle **Client**
+5. Cliquer **Se connecter**
+
+Accès : dashboard avec solde, transfert, factures, historique.
+
+> **Note** : Si la base de données est vide, lancer d'abord le seed via le fichier `test.http` du projet `design-pattern-exam` (requête 1.1).
+
+---
+
+## Architecture
+
+```
+src/app/
+├── core/
+│   ├── models/        # Interfaces TypeScript (Wallet, Facture, ...)
+│   ├── services/      # WalletApiService, BillingApiService, AuthService, NotificationService
+│   ├── interceptors/  # Gestion globale des erreurs HTTP
+│   └── guards/        # Protection des routes par rôle (client / agent)
+├── shared/
+│   ├── components/    # Header, Toast, Loader
+│   └── pipes/         # XofPipe (formatage devise XOF)
+└── features/
+    ├── login/         # Page de connexion
+    ├── agent/         # Listing, création, recherche, dépôt/retrait
+    └── client/        # Dashboard, transfert, factures, historique
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+## Branches GitFlow
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Chaque fonctionnalité a été développée dans sa propre branche `feature/*` et mergée dans `develop` via `--no-ff`.
