@@ -18,6 +18,8 @@ import { AuthService } from '../../core/services/auth.service';
         <nav class="nav">
           @if (auth.isAgent()) {
             <a routerLink="/admin/wallets" routerLinkActive="active">Portefeuilles</a>
+            <a routerLink="/admin/wallets/search" routerLinkActive="active">Recherche</a>
+            <a routerLink="/admin/depot-retrait" routerLinkActive="active">Dépôt/Retrait</a>
           } @else {
             <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
             <a routerLink="/transfer" routerLinkActive="active">Transfert</a>
